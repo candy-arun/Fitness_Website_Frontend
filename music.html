@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background-color: #333;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #444;
+            color: #4da6ff;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .play-button {
+            width: 30px;
+            height: 30px;
+            background: url('play-icon.png') no-repeat center;
+            background-size: contain;
+            border: none;
+            cursor: pointer;
+            display: block;
+            margin: auto;
+        }
+
+        .play-button:hover {
+            opacity: 0.8;
+        }
+
+        .player {
+            margin-top: 20px;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Music Playlist</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Singers</th>
+                <th>Length</th>
+                <th>Downloads</th>
+                <th>Play</th>
+            </tr>
+        </thead>
+        <tbody id="music-list">
+            <!-- Songs will be inserted dynamically -->
+        </tbody>
+    </table>
+
+    <div class="player">
+        <h3>Now Playing: <span id="current-song">None</span></h3>
+        <audio id="audio-player" controls></audio>
+    </div>
+
+    <script>
+        const playlist = [
+            { title: "Eetti- Oru thuli", singer: " G.V. Prakash Kumar", length: "01:17", downloads: "12,80,681", src: "assets/music/1.mp3" },
+            { title: "Pataas- Mavane", singer: "Deepak, Rahul", length: "03:27", downloads: "24,41,580", src: "assets/music/2.mp3" },
+            { title: "Vidamuyarchi-Pathikuchi", singer: "Anirudh Ravichander", length: "00:43", downloads: "7,61,415", src: "assets/music/5.mp3" },
+            { title: "Alagiya tamil magan- elaapugalum", singer: "A. R. Rahman", length: "01:02", downloads: "10,88,736", src: "assets/music/4.mp3" },
+            { title: "Manthan- Mun selladaa", singer: "Pradeep Kumar", length: "02:47", downloads: "7,60,554", src:"assets/music/3.mp3" },
+        ];
+
+        const musicList = document.getElementById("music-list");
+        const audioPlayer = document.getElementById("audio-player");
+        const currentSong = document.getElementById("current-song");
+
+        function loadPlaylist() {
+            playlist.forEach((song, index) => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${song.title}</td>
+                    <td>${song.singer}</td>
+                    <td>${song.length}</td>
+                    <td>${song.downloads}</td>
+                    <td><button class="play-button" onclick="playMusic(${index})">▶</button></td>
+                `;
+
+                musicList.appendChild(row);
+            });
+        }
+
+        function playMusic(index) {
+            audioPlayer.src = playlist[index].src;
+            currentSong.textContent = playlist[index].title;
+            audioPlayer.play();
+        }
+
+        window.onload = loadPlaylist;
+    </script>
+
+</body>
+</html>
